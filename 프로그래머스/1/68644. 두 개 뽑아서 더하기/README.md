@@ -1,10 +1,10 @@
 # [level 1] 두 개 뽑아서 더하기 - 68644 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68644) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68644?language=python3) 
 
 ### 성능 요약
 
-메모리: 77 MB, 시간: 5.17 ms
+메모리: 9.23 MB, 시간: 0.96 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 12월 05일 16:04:04
+2025년 07월 01일 19:57:59
 
 ### 문제 설명
 

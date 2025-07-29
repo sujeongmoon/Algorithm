@@ -4,30 +4,26 @@ class Solution {
     boolean solution(String s) {
         boolean answer = true;
 
-        // stack
-        // (면 push, )면 pop
-        // 올바르지 않은 경우 false
+        Stack<Character> stack = new Stack<>();
+        Character[] characterArray = s.chars()
+            .mapToObj(c->(char)c)
+            .toArray(Character[]::new);
         
-        Stack<Character> sStack = new Stack<>();
-        
-        for (Character sCharacter : s.toCharArray()) {
-            if (sCharacter.equals('(')) {
-                sStack.push('(');
-            } else if (sCharacter.equals(')')) {
-                // pop해야하는데 비어있는 경우 false처리
-                if (sStack.isEmpty()) {
-                    answer = false;
-                    return answer;
-                }
-                sStack.pop();
+        for (int i = 0; i < characterArray.length; i++) {
+            if (characterArray[i].equals('(')) {
+                stack.push(characterArray[i]);
+            } else if(stack.size() == 0) {
+                return false;
+            } else {
+                stack.pop();
             }
         }
-        // for문 후에 stack이 채워져있으면 false처리
-        if (!sStack.isEmpty()){
-            answer = false;
-            return answer;
+        
+        if (stack.isEmpty()) {
+            return true;
+        } else {
+            return false;
         }
-
-        return answer;
+        
     }
 }

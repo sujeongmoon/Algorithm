@@ -1,43 +1,30 @@
-// 
-
 import java.util.*;
 
 class Solution {
     boolean solution(String s) {
         boolean answer = true;
-
-        Stack<Character> stack = new Stack<>();
-        // Character[] characterArray = s.chars()
-        //     .mapToObj(c->(char)c)
-        //     .toArray(Character[]::new);
         
-        char[] charArray = s.toCharArray();
+        Stack stack = new Stack();
+        char c = ' ';
         
-        // for (int i = 0; i < characterArray.length; i++) {
-        //     if (characterArray[i].equals('(')) {
-        //         stack.push(characterArray[i]);
-        //     } else if(stack.size() == 0) {
-        //         return false;
-        //     } else {
-        //         stack.pop();
-        //     }
-        // }
+//         (이 들어오면 push, )이 들어오면 pop, 에러가 나거나 스택에 아직 (이 남아있으면 false 리턴
         
-        for (char c : charArray) {
-            if ((c == '(')) {
-                stack.push(c);
-            } else if (c == ')' && !stack.isEmpty()) {
-                stack.pop();
-            } else {
+        for (int i = 0; i < s.length(); i++) {
+            c = s.charAt(i);
+            
+            if (c == ')' && stack.size() == 0) {
                 return false;
+            } else if (c == '(') {
+                stack.push(c);
+            } else {
+                stack.pop();
             }
         }
         
-        if (stack.isEmpty()) {
-            return true;
-        } else {
+        if (stack.size() != 0) {
             return false;
         }
-        
+
+        return answer;
     }
 }

@@ -1,50 +1,35 @@
 import java.util.*;
-import java.util.stream.*;
-
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        // int[] answer = {};
-        List<Integer> answerList = new LinkedList<>();
-        int answer = 0;
         
+        Queue<Integer> answer = new ArrayDeque<>();
         
-        // 하루가 지날수록 더하고, 더하고. map을 만들어서 비교해도 될 것 같은데
-        // progresses length만큼 for문 돌리고, 그 speeds만큼 더해지게 -> 이중for문
+        int n = progresses.length; // 작업 개수
         
-        Queue<Integer> progressesQueue = Arrays.stream(progresses).boxed().collect(Collectors.toCollection(LinkedList::new));
-        Queue<Integer> speedsQueue = Arrays.stream(speeds).boxed().collect(Collectors.toCollection(LinkedList::new));
-        
-        int i = 0;
-        
-        while(true) {
-            
-            
-            // 앞에 게 일자리에서 100을 넘으면 -> 일단 새로 하나가 추가되는 거고, 혹시 다음 것도 100 넘으면 추가해야됨..
-//             if (progressQueue.peek() + speedsQueue.peek() * i >= 100) {
-//                 while (progressQueue.peek + speedsQueue.peek
-//             }
-                       
-            while (!progressesQueue.isEmpty() && progressesQueue.peek() + speedsQueue.peek() * i < 100) {
-                i+=1;
-            }
-            while (!progressesQueue.isEmpty() && progressesQueue.peek() + speedsQueue.peek() * i >= 100) {
-                answer+=1;
-                progressesQueue.poll();
-                speedsQueue.poll();
-            }
-                        
-            answerList.add(answer);
-            
-            if (progressesQueue.isEmpty()) {
-                break;
-            }
-            answer = 0;
+        //남은 날 담은 배열
+        int[] daysLeft = new int[n];
+        for (int i = 0; i < n; i++) {
+            daysLeft[i] = (int) Math.ceil((100.0 - progresses[i]) / speeds[i]);
         }
         
-        // return answerList.toArray(new Integer[answerList.size()]);
-        return answerList.stream().mapToInt(Integer::intValue).toArray();
-
-
+        int count = 0;
+        int maxDay = daysLeft[0];
+        
+        for (int i = 0; i < n; i++) {
+            if (daysLeft[i] <= maxDay) {
+                count++; // 배포 가능일이 가장 늦은 배포 가능일보다 빠르면, 작업을 count개만큼 배포(이미 뒤에 게 완료됐으니까)
+            } else {
+                answer.add(count);
+                count = 1; // ++된 count 다시 1개로 되돌려주기
+                maxDay = daysLeft[i];
+            }
+        }
+        
+        answer.add(count);
+        
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+        
+        
     }
 }

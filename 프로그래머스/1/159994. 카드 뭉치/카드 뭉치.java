@@ -1,21 +1,23 @@
+import java.util.*;
+
 class Solution {
     public String solution(String[] cards1, String[] cards2, String[] goal) {
-        String answer = "Yes";
+        // String answer = "";
         
-        // cards는 배열, goal을 만들 수 있어야함.
-        int i = 0;
-        int j = 0;
+        Queue<String> cards1Queue = new ArrayDeque<>(Arrays.asList(cards1));
+        Queue<String> cards2Queue = new ArrayDeque<>(Arrays.asList(cards2));
         
-        for (int k = 0; k < goal.length; k++) {
-            if (i < cards1.length && cards1[i].equals(goal[k])) {
-                i++;
-            } else if (j < cards2.length && cards2[j].equals(goal[k])) {
-                j++;
-            } else {
-                answer = "No";
-                break;
+        for (String str : goal) {
+            if (str.equals(cards1Queue.peek())){
+                cards1Queue.poll();
+                continue;
+            } else if (str.equals(cards2Queue.peek())) {
+                cards2Queue.poll();
+                continue;
             }
+            return "No";
         }
-        return answer;
+                
+        return "Yes";
     }
 }

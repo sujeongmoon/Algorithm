@@ -2,18 +2,20 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-            Map<String, Integer> count = new HashMap<>();
-    for (String p : participant) {
-        count.put(p, count.getOrDefault(p, 0) + 1);
-    }
-    for (String c : completion) {
-        count.put(c, count.get(c) - 1);
-    }
-    for (Map.Entry<String, Integer> e : count.entrySet()) {
-        if (e.getValue() > 0) {
-            return e.getKey();
+        // String answer = "";
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        
+        for (String string : completion) {
+            hashMap.put(string, hashMap.getOrDefault(string, 0) + 1);
         }
-    }
-    return ""; 
+        
+        for (String string : participant) {
+            if (hashMap.getOrDefault(string, 0) == 0) {
+                return string;
+            }
+            hashMap.put(string, hashMap.get(string) - 1);
+        }
+        
+        return "";
     }
 }

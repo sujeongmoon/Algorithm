@@ -3,6 +3,12 @@ import java.io.*;
 
 class Solution
 {
+    public static int getGcd(int a, int b) {
+    	if (a%b == 0) {
+            return b;
+        }
+        return getGcd(b, a%b);
+    }
 	public static void main(String args[]) throws Exception
 	{
 
@@ -33,30 +39,28 @@ class Solution
             } // shortWord, longWord 지정
 			
            // longWord 늘리기
-           for (int j = 0; j < shortWord.length(); j++) {
-               sb.append(longWord);
-           }
+            // 최대공약수 구하기
+            int gcd = getGcd(longWord.length(), shortWord.length());
+            int lsm = longWord.length()*shortWord.length() / gcd;
+            
+            for (int j = 0; j < lsm/longWord.length(); j++) {
+                sb.append(longWord);
+            }
             String longLongWord = sb.toString();
             sb.setLength(0);
             
-            boolean flag = true;
-            for (int j = 0; j < longWord.length(); j++) {
-                for (int k = 0; k < shortWord.length(); k++) {
-                    if (!(longLongWord.charAt(j*shortWord.length() + k) == shortWord.charAt(k))) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if (flag == false) {
-                    break;
-                }
+            for (int j = 0; j < lsm/shortWord.length(); j++) {
+                sb.append(shortWord);
             }
-            if (flag == true) {
+            String shortShortWord = sb.toString();
+            sb.setLength(0);
+            
+            if (longLongWord.equals(shortShortWord)) {
                 sb.append('#').append(test_case).append(" yes\n");
             } else {
                 sb.append('#').append(test_case).append(" no\n");
             }
-            bw.write(sb.toString());
+           bw.write(sb.toString());
         }
         bw.flush();
         bw.close();

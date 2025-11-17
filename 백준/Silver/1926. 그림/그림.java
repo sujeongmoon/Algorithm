@@ -15,24 +15,25 @@ public class Main {
 	static int size = 0;
 
 	static void dfs(int[][] artArray, int i, int j) {
-		if (visited[i][j] == false) {
-			visited[i][j] = true;
-			if (artArray[i][j] == 1) {
-				if (i + 1 < artArray.length) {
-					dfs(artArray, i + 1, j);
-				}
-				if (j + 1 < artArray[0].length) {
-					dfs(artArray, i, j + 1);
-				}
-				if (i - 1 >= 0) {
-					dfs(artArray, i - 1, j);
-				}
-				if (j - 1 >= 0) {
-					dfs(artArray, i, j - 1);
-				}
-				size++;
-			}
+
+		if ((i == artArray.length) || (j == artArray[0].length) || (i == -1) || (j == -1)) {
+			return;
 		}
+		if (artArray[i][j] == 0) {
+			return;
+		}
+		if (visited[i][j] == true) {
+			return;
+		}
+
+		// artArray[i][j]가 1이고 방문한 적 없는 노드
+		visited[i][j] = true;
+		size++;
+
+		dfs(artArray, i + 1, j);
+		dfs(artArray, i, j + 1);
+		dfs(artArray, i - 1, j);
+		dfs(artArray, i, j - 1);
 
 	}
 
@@ -57,14 +58,14 @@ public class Main {
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				dfs(artArray, i, j);
-				if (size > maxSize) {
-					maxSize = size;
-				}
-				if (size > 0) {
+				if (visited[i][j] == false && artArray[i][j] == 1) {
+					dfs(artArray, i, j);
+					if (size > maxSize) {
+						maxSize = size;
+					}
 					arts++;
+					size = 0;
 				}
-				size = 0;
 			}
 		}
 

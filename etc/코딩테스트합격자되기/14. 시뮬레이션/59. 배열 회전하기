@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+
+	public static int[][] solution(int[][] arr, int n) {
+		for (int i = 0; i < n; i++) {
+			arr = rotage90(arr);
+		}
+		return arr;
+	}
+
+	private static int[][] rotage90(int[][] arr) {
+		int n = arr.length;
+		int[][] rotatedArr = new int[n][n];
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				rotatedArr[j][n - i - 1] = arr[i][j];
+			}
+		}
+
+		return rotatedArr;
+	}
+
+	public static void main(String[] args) {
+		int[][] ans = solution(new int[][] {{1,2,3,4}, {5,6,7,8}, {9,10,11,12}, {13,14,15,16}}, 1);
+		// int[] ans = solution(new int[] {1,2,3}, new int[] {4,5,6});
+		System.out.println(Arrays.toString(ans));
+	}
+}

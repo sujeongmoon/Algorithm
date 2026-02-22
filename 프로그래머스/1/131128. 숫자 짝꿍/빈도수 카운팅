@@ -1,0 +1,40 @@
+class Solution {
+    public String solution(String X, String Y) {
+        StringBuilder sb = new StringBuilder();
+        
+        // 0부터 9까지 각 숫자가 몇 번 나왔는지 저장할 배열 (크기가 딱 10)
+        int[] countX = new int[10];
+        int[] countY = new int[10];
+        
+        // 1. X 문자열의 숫자 빈도수 카운팅
+        for (char c : X.toCharArray()) {
+            countX[c - '0']++; // 문자 '3'이 들어오면 countX[3]이 1 증가함
+        }
+        
+        // 2. Y 문자열의 숫자 빈도수 카운팅
+        for (char c : Y.toCharArray()) {
+            countY[c - '0']++;
+        }
+        
+        // 3. 가장 큰 숫자를 만들어야 하므로 9부터 0까지 역순으로 탐색
+        for (int i = 9; i >= 0; i--) {
+            // 두 배열에서 공통으로 가지고 있는 개수만큼 찾아냄 (더 적은 쪽 기준)
+            int minCount = Math.min(countX[i], countY[i]);
+            
+            // 공통된 개수만큼 정답 문자열에 추가
+            for (int j = 0; j < minCount; j++) {
+                sb.append(i);
+            }
+        }
+        
+        // 4. 예외 처리
+        if (sb.length() == 0) {
+            return "-1"; // 공통된 숫자가 아예 없는 경우
+        }
+        if (sb.charAt(0) == '0') {
+            return "0"; // 가장 큰 숫자가 '0'으로 시작한다면, "000" 같은 경우이므로 "0" 리턴
+        }
+        
+        return sb.toString();
+    }
+}

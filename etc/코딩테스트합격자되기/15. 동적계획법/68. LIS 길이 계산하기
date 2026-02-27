@@ -1,0 +1,37 @@
+package com.javacodingtest;
+
+import java.util.Arrays;
+
+class Solution {
+
+	public static int solution(int[] nums) {
+
+		int[] dp = new int[nums.length];
+		Arrays.fill(dp, 1);
+
+		for (int i = 1; i < nums.length; i++) {
+			for (int j = 0; j < i; j++) {
+				if (nums[i] > nums[j]) {
+					dp[i] = Math.max(dp[i], dp[j] + 1);
+				}
+			}
+		}
+
+		return Arrays.stream(dp).max().getAsInt();
+	}
+
+	public static void main(String[] args) {
+		// int[][] ans = solution(4);
+		// int[][] ans = solution(new int[][] {{1,2,3}, {4,5,6}, {7,8,9}}, new int[][] {{9,8,7}, {6,5,4}, {3,2,1}});
+		int ans = solution(new int[] {1,4,2,3,1,5,7,3});
+		System.out.println(ans);
+		// System.out.println(Arrays.toString(ans));
+		// for (int i = 0; i < ans.length; i++) {
+		// 	for (int j = 0; j < ans[i].length; j++) {
+		// 		System.out.print(ans[i][j] + " ");
+		// 	}
+		// 	System.out.println();
+		// }
+
+	}
+}

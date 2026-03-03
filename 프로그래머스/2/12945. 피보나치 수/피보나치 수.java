@@ -1,16 +1,14 @@
 class Solution {
     public int solution(int n) {
-        int num1 = 0;
-        int answer = 1;
-        int count = 1;
-        
-        while (count < n) {
-            int num = num1;
-            num1 = answer;
-            answer = (num + num1) % 1234567;
-            count++;
+       
+        int[] fibo = new int[n+1];
+        fibo[0] = 0;
+        fibo[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            fibo[i] = (fibo[i-1] + fibo[i-2]) % 1234567;
         }
         
-        return answer;
+        
+        return fibo[n];
     }
 }

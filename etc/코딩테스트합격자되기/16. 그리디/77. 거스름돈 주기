@@ -1,0 +1,37 @@
+package com.javacodingtest;
+
+import java.util.*;
+
+class Solution {
+
+	public static int[] solution(int amount) {
+
+		ArrayList<Integer> answer = new ArrayList<>();
+
+		while(amount > 0){
+			if  (amount >= 100) {
+				answer.add(100);
+				amount -= 100;
+			} else if (amount >= 50) {
+				answer.add(50);
+				amount -= 50;
+			} else if (amount >= 10) {
+				answer.add(10);
+				amount -= 10;
+			} else {
+				answer.add(1);
+				amount -= 1;
+			}
+		}
+
+		return answer.stream().mapToInt(Integer::intValue).toArray();
+
+	}
+
+	public static void main(String[] args) {
+  
+		int[]ans = solution(350);
+		System.out.println(Arrays.toString(ans));
+
+	}
+}

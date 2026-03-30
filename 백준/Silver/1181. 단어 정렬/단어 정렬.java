@@ -18,12 +18,8 @@ public class Main {
         }
         
         List<String> sortedList = set.stream()
-            .sorted((s1, s2) -> {
-                if (s1.length() == s2.length()) {
-                    return s1.compareTo(s2);
-                }
-                return s1.length() - s2.length();
-            })
+            .sorted(Comparator.comparingInt(String::length)
+                   .thenComparing(Comparator.naturalOrder()))
             .collect(Collectors.toList());
         
         for (String s : sortedList) {

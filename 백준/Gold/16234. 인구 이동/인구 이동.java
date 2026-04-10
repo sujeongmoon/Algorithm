@@ -76,7 +76,7 @@ public class Main {
         shareCountries[row][col] = countryNumber;
 
         ArrayList<int[]> countries = new ArrayList<>();
-        countries.add(new int[]{row, col});
+//        countries.add(new int[]{row, col});
 
         while (!stack.isEmpty()) {
             int[] s = stack.pop();

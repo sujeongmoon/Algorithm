@@ -24,14 +24,11 @@ public class Main {
 
         int answer = 0;
 
-        while(K != 0) {
 
-            for (int i = N-1; i >= 0; i--) {
-                if (values[i] <= K) {
-                    K -= values[i];
-                    answer++;
-                    break;
-                }
+        for (int i = N - 1; i >= 0; i--) {
+            if (values[i] <= K) {
+                answer += K / values[i];
+                K %= values[i];
             }
         }
 

@@ -1,0 +1,11 @@
+-- 코드를 입력하세요
+SELECT CAR_ID, 
+    CASE
+        # MAX로 0/1을 판별 -> 1이면 하나라도 대여 중인 게 되므로
+        WHEN MAX(CASE WHEN '2022-10-16' BETWEEN START_DATE AND END_DATE THEN 1 ELSE 0 END) = 1
+        THEN '대여중'
+        ELSE '대여 가능'
+    END AS 'AVAILABILITY'
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+GROUP BY CAR_ID
+ORDER BY CAR_ID DESC;

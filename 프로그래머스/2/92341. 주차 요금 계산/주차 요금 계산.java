@@ -64,9 +64,15 @@ class Solution {
             
         }
         
+        // int[] answer = sumTime.entrySet().stream()
+        //     .sorted(Map.Entry.comparingByKey())
+        //     .mapToInt(Map.Entry::getValue)
+        //     .toArray();
+        
         int[] answer = sumTime.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey())
-            .mapToInt(Map.Entry::getValue)
+            .sorted((o1, o2) -> {
+                return o1.getKey().compareTo(o2.getKey());
+            }).mapToInt(Map.Entry::getValue)
             .toArray();
          
         for (int i = 0; i < answer.length; i++) {

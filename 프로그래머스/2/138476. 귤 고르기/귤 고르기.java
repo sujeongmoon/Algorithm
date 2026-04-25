@@ -15,14 +15,33 @@ class Solution {
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
         
-        for (int i = 0; i < list.size(); i++) {
-            k -= list.get(i);
+        int[] arr = map.values().stream()
+            .mapToInt(Integer::intValue)
+            .toArray();
+        
+        Arrays.sort(arr);
+        
+        for (int i = arr.length - 1; i >= 0; i--) {
+            k -= arr[i];
             answer++;
-            
             if (k <= 0) {
                 return answer;
             }
         }
+        
+        
+        // List<Integer> list = map.values().stream()
+        //     .sorted(Comparator.reverseOrder())
+        //     .collect(Collectors.toList());
+        
+//         for (int i = 0; i < list.size(); i++) {
+//             k -= list.get(i);
+//             answer++;
+            
+//             if (k <= 0) {
+//                 return answer;
+//             }
+//         }
         
         return answer;
     }

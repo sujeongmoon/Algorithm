@@ -24,14 +24,26 @@ class Solution {
             
         }
         
-        for (int i = 0; i < id_list.length; i++) {
-            if (reportMap.get(id_list[i]).size() >= k) {
-                ArrayList<String> reporterList = new ArrayList<>(reportMap.get(id_list[i]));
-                for (int j = 0; j < reporterList.size(); j++) {
-                    answer[idIndexMap.get(reporterList.get(j))]++;
-                }    
+        for (Map.Entry<String, HashSet<String>> entry : reportMap.entrySet()) {
+            String reportedId = entry.getKey();
+            HashSet<String> reporters = entry.getValue();
+            
+            if (reporters.size() >= k) {
+                for (String reporter : reporters) {
+                    answer[idIndexMap.get(reporter)]++;
+                }
             }
         }
+        
+        
+        // for (int i = 0; i < id_list.length; i++) {
+        //     if (reportMap.get(id_list[i]).size() >= k) {
+        //         ArrayList<String> reporterList = new ArrayList<>(reportMap.get(id_list[i]));
+        //         for (int j = 0; j < reporterList.size(); j++) {
+        //             answer[idIndexMap.get(reporterList.get(j))]++;
+        //         }    
+        //     }
+        // }
 
         return answer;
     }

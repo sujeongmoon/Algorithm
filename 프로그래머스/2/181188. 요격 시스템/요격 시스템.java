@@ -15,13 +15,10 @@ class Solution {
         // 일단 가장 짧은 것부터 찾고, 겹치는 걸 찾으면 될 것 같은데
         // [0] + 1 <= [1] 여야함 (끊기면안됨) => 잘못생각(예전에 풀었던 비슷한 유형을 떠올렸짐나 접근 방식이 틀렸다)
         
+        // Arrays.sort(targets, Comparator.comparingInt(o -> o[1]));
         Arrays.sort(targets, (o1, o2) -> {
-            // 종료시점이 빠른 순서대로 정렬
-            // 제일 처음부터 훑되, 가장 뒤에서 쏘는 게 유리 (겹칠 가능성이 더 높아짐)
-            // 끝나는 기준으로 정렬하는 게 중요
             return Integer.compare(o1[1], o2[1]);
         });
-
         int last = 0;
         
         for (int i = 0; i < targets.length; i++) {

@@ -16,19 +16,36 @@ class Solution {
         // 현재 운용중인 서버 개수 nowServer
         // 그냥 간단하게 현재 + k까지 돌면서 m씩 빼고, 만약 양수인 경우 0이나 음수와 같을 때까지 계속 빼고 answer +하면 될 듯
         
+        int[] servers = new int[24];
+        int nowServer = 0;
+        
         for (int i = 0; i < 24; i++) {
+             nowServer -= servers[i];
             
-            if (players[i] >= m) {
-                while (players[i] >= m) {
-                    for (int j = i; (j < i+k && j < 24); j++) {
-                        players[j] -= m;
-                    }
-                    answer++;
-                    System.out.println(i);
-                }
+            if (players[i] >= ((nowServer + 1) * m)) {
+                int count = (((players[i] - ((nowServer + 1) * m))) / m) + 1;
+                // System.out.println(count);
+                answer += count;
+                nowServer += count;
+                
+                if (i + k < 24) {
+                    servers[i+k] += count;
+                } 
             }
-            
         }
+        
+//         for (int i = 0; i < 24; i++) {
+            
+//             if (players[i] >= m) {
+//                 while (players[i] >= m) {
+//                     for (int j = i; (j < i+k && j < 24); j++) {
+//                         players[j] -= m;
+//                     }
+//                     answer++;
+//                 }
+//             }
+            
+//         }
         
         
         

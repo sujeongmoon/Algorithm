@@ -4,23 +4,18 @@ class Solution {
     public int solution(int[] elements) {
 
         // dp
-        int[][] dp = new int[elements.length - 1][elements.length]; // 연속되는 각 값들을 더한 이차원 배열
-        HashSet<Integer> set = new HashSet<>();
+        int[] dp = new int[elements.length]; // 연속되는 각 값들을 더한 이차원 배열
+        HashSet<Integer> set = new HashSet<>(); // 더한 값을 넣는 set
         
-        for (int i = 0; i < elements.length; i++) {
-            dp[0][i] = elements[i];
-            set.add(elements[i]);
-        }
-        
-        for (int i = 1; i < elements.length - 1; i++) {
-            for (int j = 0; j < elements.length; j++) {
-                dp[i][j] = dp[i-1][j] + dp[0][(j+i) % elements.length];
-                set.add(dp[i][j]);
-                    
+        for (int i = 0; i < elements.length; i++) { // 몇 번까지 더할 건지
+            for (int j = 0; j < elements.length; j++) { // 지금 dp의 몇 번째를 보고 있는지
+                dp[j] += elements[(i+j) % elements.length];
+                set.add(dp[j]);
+                
             }
         }
         
-        return set.size() + 1; // 전체를 더한 값 + 1
+        return set.size(); 
         
     }
 }

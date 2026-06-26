@@ -1,49 +1,27 @@
-import java.util.*;
-
 class Solution {
-    
-    int[][] dungeonArrays;
-    int[] orderArrays;
-    int maxOrder = 0;
-    
-    void dfs(int nowK, int idx, int nowOrder) {
-        
-        int nextK = nowK - dungeonArrays[idx][1];
-        maxOrder = Math.max(nowOrder, maxOrder);
-        
-        for (int i = 0; i < dungeonArrays.length; i++) {
-            // orderArrays[idx] = nowOrder; 
-            
-            if (orderArrays[i]!=0) {
-                continue;
-            }
-            
-            if (nextK < dungeonArrays[i][0]) {
-                continue;
-            }
-            
-            if (nextK - dungeonArrays[i][1] < 0) {
-                continue;
-            }
-                
-            orderArrays[i] = nowOrder+1;    
-            dfs(nextK, i, nowOrder+1);
-            orderArrays[i] = 0;  
-        }
-    }
-    
+    static int maxDungeons = 0;
     
     public int solution(int k, int[][] dungeons) {
-
-        dungeonArrays = dungeons;
-        orderArrays = new int[dungeons.length];
+        maxDungeons = 0;
+        
+        // 1이상 8 이하니까 하나하나 다 해보기.
+        boolean[] isVisited = new boolean[dungeons.length];
+        backtracking(k, 0, dungeons, isVisited);
+        
+        return maxDungeons;
+    }
+    
+    public static void backtracking(int currentK, int depth, int[][] dungeons, boolean[] isVisited) {
+        maxDungeons = Math.max(maxDungeons, depth); // 최대 깊이 갱신해주기
         
         for (int i = 0; i < dungeons.length; i++) {
-            orderArrays[i] = 1;    
-            dfs(k, i, 1);
-            orderArrays[i] = 0;    
+            // 아직 안 갔고, 현재 피로도가 최소 필요 피로도 이상일 때에만 간다
+            if (!isVisited[i] && currentK >= dungeons[i][0]) {
+                isVisited[i] = true;
+                backtracking(currentK - dungeons[i][1], depth + 1, dungeons, isVisited);
+                isVisited[i] = false;
+            }
         }
         
-        return maxOrder;
     }
 }

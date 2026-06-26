@@ -1,23 +1,29 @@
 class Solution {
-    int answer = 0;
-
+    
+    static int answer;
     public int solution(int[] numbers, int target) {
-        // DFS 시작: (0번째 인덱스부터, 현재 합계는 0)
-        dfs(numbers, target, 0, 0);
+        answer = 0;
+        
+        dfs(0, 0, numbers, target);
+        
         return answer;
     }
-
-    private void dfs(int[] numbers, int target, int index, int sum) {
-        // 1. 탈출 조건: 모든 숫자를 다 사용했을 때
+    
+    static void dfs(int index, int sum, int[] numbers, int target) {
+        
+        // 종료조건
         if (index == numbers.length) {
             if (sum == target) {
                 answer++;
             }
             return;
         }
-
-        // 2. 수행 동작: 현재 숫자를 더하거나 빼거나 (두 갈래 길)
-        dfs(numbers, target, index + 1, sum + numbers[index]); // 더하는 경우
-        dfs(numbers, target, index + 1, sum - numbers[index]); // 빼는 경우
+        
+        // 더해서 다음으로
+        dfs(index+1, sum+numbers[index], numbers, target);
+        
+        // 빼서 다음으로
+        dfs(index+1, sum-numbers[index], numbers, target);
+        
     }
 }

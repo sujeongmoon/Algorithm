@@ -2,53 +2,51 @@ import java.util.*;
 
 class Solution {
     public String[] solution(String[] record) {
-        ArrayList<String> answer = new ArrayList<>();
         
-        HashMap<String, String> recordHashMap = new HashMap<>();
-        Queue<String[][]> orderQueue = new ArrayDeque<>();
+        HashMap<String, String> map = new HashMap<>(); // id - nickname
         
-        String[] parts = new String[3];
-        String msg = "";
-        String id = "";
-        String name = "";
+        // 맵 완성
+        for (int i = 0; i < record.length; i++) {
+           StringTokenizer st = new StringTokenizer(record[i]);
+            
+            String notice = st.nextToken();
+            
+            // enter과 change인 경우 map 업데이트해서 id-nickname 업데이트
+            if (notice.equals("Enter") || notice.equals("Change")) {
+                String userId = st.nextToken();
+                String userNickName = st.nextToken();
+                
+                map.put(userId, userNickName);
+            }  
+        }
         
-        for (String r : record) {
+        // 공지 채우기
+        ArrayList<String> list = new ArrayList<>();
+        
+        for (int i = 0; i < record.length; i++) {
+            StringTokenizer st = new StringTokenizer(record[i]);
             
-            parts = r.split(" ");
-            msg = parts[0];
-            id = parts[1];
-            
-            
-            if (msg.equals("Enter")) {
-                name = parts[2];
-                if ((recordHashMap.containsKey(id) && !recordHashMap.get(id).equals(name))
-                    || !recordHashMap.containsKey(id)) {
-                    recordHashMap.put(id, name);
-                }
-
-            } else if (msg.equals("Change")) {
-                name = parts[2];
-                recordHashMap.put(id, name);
+            String notice = st.nextToken();
+            if (notice.equals("Change")) {
                 continue;
-            } 
-            
-            orderQueue.add(new String[][] {{msg, id}});
-        }
-        
-        int length = orderQueue.size();
-        
-        for (int i = 0; i < length; i++) {
-            String[][] order = orderQueue.poll();
-            
-            if (order[0][0].equals("Enter")) {
-                answer.add(recordHashMap.get(order[0][1]) + "님이 들어왔습니다.");
-            } else if (order[0][0].equals("Leave")) {
-                answer.add(recordHashMap.get(order[0][1]) + "님이 나갔습니다.");
             }
-            
+            String userId = st.nextToken();
+            StringBuilder sb = new StringBuilder();
+            sb.append(map.get(userId));
+            if (notice.equals("Enter")) {
+                sb.append("님이 들어왔습니다.");
+            } else if (notice.equals("Leave")) {
+                sb.append("님이 나갔습니다.");
+            } 
+            list.add(sb.toString());
         }
         
+        String[] answer = new String[list.size()];
         
-        return answer.toArray(new String[answer.size()]);
+        for (int i = 0; i < answer.length; i++) {
+            answer[i] = list.get(i);
+        }
+        
+        return answer;
     }
 }

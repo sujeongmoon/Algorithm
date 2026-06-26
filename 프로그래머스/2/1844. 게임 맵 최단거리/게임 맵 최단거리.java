@@ -2,55 +2,51 @@ import java.util.*;
 
 class Solution {
     
-    private static final int[] rx = {0, 0, 1, -1};
-    private static final int[] ry = {1, -1, 0, 0};
+    static int[] dr = new int[] {1, -1, 0, 0};
+    static int[] dc = new int[] {0, 0, 1, -1};
     
-    private static class Node {
-        int r, c;
-        public Node(int r, int c) {
-            this.r = r;
-            this. c = c;
-        }
-    }
     
     public int solution(int[][] maps) {
+        bfs(maps);
         
-        int N = maps.length;
-        int M = maps[0].length;
+        return maps[maps.length-1][maps[0].length-1] == 1 ? -1 : maps[maps.length-1][maps[0].length-1];
+    }
+    
+    public static void bfs(int[][] maps) {
         
-        int[][] dist = new int [N][M];
-        ArrayDeque<Node> queue = new ArrayDeque<>();
+        ArrayDeque<int[]> queue = new ArrayDeque<>(); // 현재 도달해있는 칸의 좌표를 저장하는 큐
+        queue.offer(new int[] {0, 0}); 
         
-        queue.addLast(new Node(0, 0));
-        dist[0][0] = 1;
+        int answer = 0;
         
         while (!queue.isEmpty()) {
-            Node now = queue.pollFirst();
             
-            for (int i = 0; i < 4; i++) {
-                int nr = now.r + rx[i];
-                int nc = now.c + ry[i];
+            int[] now = queue.poll();
             
-            
-                if (nr < 0 || nc < 0 || nr >= N || nc >= M) {
+            for (int i = 0; i < 4; i ++) {
+                
+                int nextR = now[0] + dr[i];
+                int nextC = now[1] + dc[i];
+                
+                // 0 미만이거나 length 이상인 경우 스킵
+                if (nextR < 0 || nextR >= maps.length || nextC < 0 || nextC >= maps[0].length) {
                     continue;
                 }
-            
-                if (maps[nr][nc] == 0) {
+                // 막혀있거나 이미 방문한 경우는 스킵
+                if (maps[nextR][nextC] != 1) {
                     continue;
                 }
-            
-                if (dist[nr][nc] == 0) {
-                    queue.addLast(new Node(nr, nc));
-                    dist[nr][nc] = dist[now.r][now.c] + 1;
-                }
+                
+                
+                // 해당 자리를 step 수로
+                maps[nextR][nextC] = maps[now[0]][now[1]] + 1;
+                // 큐에 넣기
+                queue.offer(new int[] {nextR, nextC});
             }
-                       
+            
         }
         
-        if (dist[N-1][M-1] == 0) {
-            return -1;
-        }
-        return dist[N-1][M-1];
+        return;
+
     }
 }

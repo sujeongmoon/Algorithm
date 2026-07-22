@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+class Solution {
+
+	public static void main(String args[]) throws Exception {
+
+		// 테스트케이스 T
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+
+		for (int test_case = 1; test_case <= T; test_case++) {
+
+			int N = sc.nextInt(); // 점원들의 수
+			int[] arr = new int[N]; // 점원들 키를 담을 배열
+			int B = sc.nextInt(); // 선반의 높이
+
+			int answer = Integer.MAX_VALUE;
+
+			for (int i = 0; i < N; i++) {
+				arr[i] = sc.nextInt(); // 점원들 키를 배열에 넣기
+			}
+
+			// 해당 수를 더하느냐 / 더하지 않느냐로 정할 수 있음
+			// 높이가 B보다는 크고 그 사이에서는 가장 작아야 함.
+			answer = find(arr, 0, 0, B) - B;
+
+			System.out.println("#" + test_case + " " + answer);
+
+		}
+
+	}
+
+	static int find(int[] arr, int idx, int now, int B) {
+
+		if (now >= B) {
+			return now;
+		}
+
+		if (idx == arr.length) { // B를 안 넘었는데 배열이 끝난 경우 가장 큰 값 출력
+			return Integer.MAX_VALUE;
+		}
+
+		int includeNowIdxSum = find(arr, idx + 1, now + arr[idx], B);
+		int noIncludeNowIdxSum = find(arr, idx + 1, now, B);
+
+		return Math.min(includeNowIdxSum, noIncludeNowIdxSum);
+	}
+}

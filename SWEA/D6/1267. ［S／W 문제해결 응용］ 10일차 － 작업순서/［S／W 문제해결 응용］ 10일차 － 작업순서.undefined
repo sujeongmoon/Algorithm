@@ -1,0 +1,86 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+	static int V;
+	static int E;
+	static List<Integer>[] listV;
+	static boolean[] isVisited;
+	static StringBuilder sb;
+	
+	public static void main(String[] args) throws Exception{
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
+		
+		for (int t = 1; t <= 10; t++) {
+			
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			V = Integer.parseInt(st.nextToken());
+			E = Integer.parseInt(st.nextToken());
+			
+			listV = new ArrayList[V+1];
+			for (int i = 1; i <= V; i++) {
+				listV[i] = new ArrayList<>(); // 초기화
+			}
+			
+			st = new StringTokenizer(br.readLine());
+			
+			for (int i = 0; i < E; i++) {
+				int b = Integer.parseInt(st.nextToken());
+				int a = Integer.parseInt(st.nextToken());
+				
+				listV[a].add(b); // a를 수행하기 위해서 b가 선행되어야 함
+			}
+			
+			isVisited = new boolean[V+1];
+			
+			sb.append("#").append(t);
+			bfs(0);
+			sb.append("\n");
+
+		}
+		System.out.println(sb);
+		
+		
+		
+	}
+	
+	static void bfs(int count) {
+		
+		ArrayDeque<Integer> queue = new ArrayDeque<>();
+		
+		for (int i = 1; i <= V; i++) {
+			queue.offer(i);
+		}
+		
+		while(!queue.isEmpty()) {
+			int now = queue.poll();
+			
+			// 만약 처리해야할 선행작업이 남아있다면 다시 큐에 넣음
+			boolean isWork = true;
+			for (int i = 0; i < listV[now].size(); i++) {
+				int beforeNow = listV[now].get(i);
+				if (!isVisited[beforeNow]) {
+					isWork = false;
+					break;
+				}
+			}
+			if (!isWork) {
+				// 다시 넣어준다
+				queue.offer(now);
+			} else {
+				// 아닌 경우 isVisited 처리 후 놓아주기, sb에 추가
+				isVisited[now] = true;
+				sb.append(" ").append(now);
+			}
+		}
+		
+	}
+
+}

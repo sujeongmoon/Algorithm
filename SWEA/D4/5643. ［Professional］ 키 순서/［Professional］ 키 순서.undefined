@@ -1,0 +1,92 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Solution {
+	
+	static int N;
+	static int M;
+	static boolean[] isVisited;
+	static ArrayList<Integer>[] parents;
+	static ArrayList<Integer>[] childrens;
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		for (int t = 1; t <= T; t++) {
+			
+			 // 1번부터 N번까지 번호가 붙여져있는 학생들
+			// 두 학생끼리 키를 비교함
+			// 키가 모두 다름
+			// 키가 가장 작은 학생부터 자신이 몇 번째인지 알 수 있는 학생들도 있고
+			// 그렇지 못한 학생들도 있음
+
+			
+			N = Integer.parseInt(br.readLine());
+		    parents = new ArrayList[N+1];
+			childrens = new ArrayList[N+1];
+			
+			for (int i = 0; i < N+1; i++) {
+				parents[i] = new ArrayList<>();
+				childrens[i] = new ArrayList<>();
+			}
+			
+			M = Integer.parseInt(br.readLine());
+			
+			for (int i = 0; i < M; i++) {
+				StringTokenizer st = new StringTokenizer(br.readLine());
+				int a = Integer.parseInt(st.nextToken());
+				int b = Integer.parseInt(st.nextToken());
+			
+				parents[b].add(a);
+				childrens[a].add(b);
+			}
+			
+			int answer = 0;
+			
+			// 방문체크
+			for (int i = 1; i <= N; i++) {
+				isVisited = new boolean[N+1];
+				dfsUp(isVisited, i);
+				dfsDown(isVisited, i);
+				int count = 0;
+				for (int j = 1; j <= N; j++) {
+					if (isVisited[j]) {
+						count++;
+					}
+				}
+				if (count == N) {
+					answer++;
+				}
+			}
+			
+			sb.append("#").append(t).append(" ").append(answer).append("\n");
+			
+			
+		}
+		System.out.print(sb);
+		
+	}
+	
+	static void dfsUp(boolean[] isVisited, int now) {
+		isVisited[now] = true;
+		for (int i = 0; i < parents[now].size(); i++) {
+			int next = parents[now].get(i);
+			if (!isVisited[next]) dfsUp(isVisited, next);
+		}
+	}
+	
+	static void dfsDown(boolean[] isVisited, int now) {
+		isVisited[now] = true;
+		for (int i = 0; i < childrens[now].size(); i++) {
+			int next = childrens[now].get(i);
+			if (!isVisited[next]) dfsDown(isVisited, next);
+		}
+	}
+
+}
